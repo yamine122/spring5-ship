@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ship.web.cmm.IConsumer;
+import com.ship.web.cmm.IFunction;
 import com.ship.web.utl.Printer;
 
 
@@ -21,34 +23,26 @@ public class UserCtrl {
 	@Autowired Map<String, Object> map;
 	@Autowired User user;
 	@Autowired Printer printer;
+	@Autowired UserMapper userMapper;
+	
 	
 	@PostMapping("/")
-	public Map<?,?> join(@RequestBody User param) {
+	public String join(@RequestBody User param) {
 		
-		//logger.info("ajax가 보낸 아이디와 비번 {}",param.getUid()+","+param.getUpw()+","+param.getUname());
+		IConsumer<User> c = T ->  userMapper.insertUser(param);
+		c.accept(param);
 		
-		printer.accept("람다 프린터가 출력한 값"+param.getUid()+","+param.getUpw()+","+param.getUname());
+		return "SUCCESS";
 		
-		HashMap<String, String> map = new HashMap<>();
-		map.put("uid", param.getUid());
-		map.put("upw", param.getUpw());
-		map.put("uname", param.getUname());
 		
-		logger.info("map에 담긴 아이디와 비번 {}",map.get("uid")+","+map.get("upw"));
-		
-		return map;
 	}
 
 	@PostMapping("/login")
 	public User login(@RequestBody User param) {
 		
-		logger.info("ajax가 보낸 login아이디와 비번 {}",param.getUid()+","+param.getUpw());
+		 IFunction<User,User> f = T -> userMapper.selectByIdPw(param);
+	
 		
-		user.setUid(param.getUid());
-		user.setUpw(param.getUpw());
-		
-		
-		logger.info("user에 담긴 login아이디와 비번 {}",user.toString());
-		return user;
+		return f.apply(param);
 	}
 }
