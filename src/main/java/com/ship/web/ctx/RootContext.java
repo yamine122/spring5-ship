@@ -1,4 +1,4 @@
-package com.ship.web.config;
+package com.ship.web.ctx;
 
 import javax.sql.DataSource;
 
@@ -17,7 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;*/
 @Configuration
 @MapperScan(basePackages = {"com.ship.web"})
 @ComponentScan(basePackages = {"com.ship.web"})
-public class RootConfig {
+public class RootContext {
 	@Bean
 	public DataSource dataSource() {
 		/*HikariConfig hikariConfig = new HikariConfig();
