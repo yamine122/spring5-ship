@@ -1,8 +1,8 @@
-"use strict";
-var auth_vue = auth_vue || {};
+"user strict"
+var auth_vue = auth_vue || {}
 auth_vue ={
-	join_head: ()=>{
-		return '<head>'+
+    join_head:()=>{
+        return '<head>'+
         '    <meta charset="utf-8">'+
         '    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">'+
         '    <meta name="description" content="">'+
@@ -30,9 +30,9 @@ auth_vue ={
         '    <!-- Custom styles for this template -->'+
         '    <link href="https://getbootstrap.com/docs/4.3/examples/checkout/form-validation.css" rel="stylesheet">'+
         '  </head>'
-	},
-	join_body:()=>{
-		return '<div class="container" >'+
+    },
+    join_body: ()=>{
+        return '<div class="container" >'+
         '  <div class="py-5 text-center">'+
         '    <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">'+
         '    <h2>Checkout form</h2>'+
@@ -93,25 +93,28 @@ auth_vue ={
         '          <div class="col-md-6 mb-3">'+
         '            <label for="uid">USERID</label>'+
         '            <input type="text" class="form-control" id="uid" placeholder="" value="" required="">'+
-        '            <div class="invalid-feedback">'+
-        '              Valid first name is required.'+
+        '            <div class="check_font" id="uid">'+
         '            </div>'+
         '          </div>'+
         '          <div class="col-md-6 mb-3">'+
-        '            <label for="upw">PASSWORD</label>'+
-        '            <input type="text" class="form-control" id="upw" placeholder="" value="" required="">'+
+        '            <label for="id_check">ID 중복체크</label>'+
+        '            <input type="text" class="form-control" id="dupl_check" placeholder="" value="" required="">'+
         '            <div class="invalid-feedback">'+
         '              Valid last name is required.'+
         '            </div>'+
         '          </div>'+
         '        </div>'+
         '        <div class="mb-3">'+
-        '          <label for="u">Username</label>'+
+        '          <label for="address2">패스워드<span class="text-muted">(Optional)</span></label>'+
+        '          <input type="text" class="form-control" id="upw" placeholder="Apartment or suite">'+
+        '        </div>'+
+        '        <div class="mb-3">'+
+        '          <label for="uname">Username</label>'+
         '          <div class="input-group">'+
         '            <div class="input-group-prepend">'+
         '              <span class="input-group-text">@</span>'+
         '            </div>'+
-        '            <input type="text" class="form-control" id="uname" placeholder="Username" required="">'+
+        '            <input type="text" class="form-control" id="uname" placeholder="uname" required="">'+
         '            <div class="invalid-feedback" style="width: 100%;">'+
         '              Your username is required.'+
         '            </div>'+
@@ -130,10 +133,6 @@ auth_vue ={
         '          <div class="invalid-feedback">'+
         '            Please enter your shipping address.'+
         '          </div>'+
-        '        </div>'+
-        '        <div class="mb-3">'+
-        '          <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>'+
-        '          <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">'+
         '        </div>'+
         '        <div class="row">'+
         '          <div class="col-md-5 mb-3">'+
@@ -223,7 +222,8 @@ auth_vue ={
         '          </div>'+
         '        </div>'+
         '        <hr class="mb-4">'+
-        '        <div id="btn_join"></div>'+
+        '        <div id="btn_join">'+
+        '        </div>'+
         '      </form>'+
         '    </div>'+
         '  </div>'+
@@ -236,8 +236,8 @@ auth_vue ={
         '    </ul>'+
         '  </footer>'+
         '</div>'
-	},
-	login_head: x=>{
+    },
+    login_head: x=>{
         return '<head>'+
         '  <meta charset="UTF-8" />'+
         '  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">'+
@@ -269,16 +269,16 @@ auth_vue ={
         '    <!-- Custom styles for this template -->'+
         '    <link href="'+x.css+'/signin.css" rel="stylesheet">'+
         '</head>'
-	},
-	login_body: x=>{
-        return '<body class="text-center">'+
+    },
+    login_body: x=>{
+        return'<body class="text-center">'+
         '  <form id="form_join" class="form-signin">'+
         '    <div class="form-Checkout">'+
         '    <img class="mb-4" src="'+x.img+'/bootstrap-solid.svg" alt="" width="72" height="72">'+
-        '     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>'+
-        '    <label for="uid" class="sr-only">userid</label>'+
-        '    <input type="text" id="uid" class="form-control" placeholder="Email address" required="" autofocus="">'+
-        '    <label for="upw" class="sr-only">Password</label>'+
+        '    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>'+
+        '    <label for="userid" class="sr-only">userid</label>'+
+        '    <input type="text" id="uid" class="form-control" placeholder="ID" required="" autofocus="">'+
+        '    <label for="password" class="sr-only">Password</label>'+
         '    <input type="password" id="upw" class="form-control" placeholder="Password" required="">'+
         '    <div class="checkbox mb-3">'+
         '      <label>'+
@@ -289,5 +289,5 @@ auth_vue ={
         '    <p class="mt-5 mb-3 text-muted">© 2017-2019</p>'+
         '  </form>'+
         '</body>'
-	}
+    }
 };
