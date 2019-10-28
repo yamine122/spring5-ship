@@ -119,7 +119,7 @@ auth = (()=>{
                        })
                        
                        .fail(()=>{
-                    	   alert('실패')
+                    	   alert('when done 실패')
                        })
                      
                         	  
