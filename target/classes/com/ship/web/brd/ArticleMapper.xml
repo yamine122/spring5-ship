@@ -8,5 +8,22 @@
        INSERT INTO ARTICLE (USER_ID, BOARD_TYPE, TITLE, CONTENT) VALUES (
             #{uid}, #{boardType},#{title}, #{content}
        )
+       
    </insert>
+   <select id="count" resultType="string">
+       SELECT COUNT(*) FROM ARTICLE
+   </select>
+   <select id="selectAll" resultType="Article">
+       SELECT A.BOARD_TYPE  boardType, A.USER_ID uid, A.*
+		FROM ARTICLE A
+   </select>
+   <select id="deleteArticle" resultType="Article">
+       DELETE  FROM ARTICLE WHERE ARTSEQ LIKE #{artseq}
+   </select>
+   <update id="updateArticle" parameterType="Article">
+  			UPDATE ARTICLE 
+			SET CONTENT = #{content}
+			WHERE ARTSEQ = #{artseq};
+  	</update>
+   
 </mapper>

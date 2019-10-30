@@ -2,5 +2,5 @@ package com.ship.web.cmm;
 
 @FunctionalInterface
 public interface ISupplier<T> {
-	public T get(T t);
+	public T get();
 }

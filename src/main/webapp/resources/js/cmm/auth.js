@@ -2,20 +2,26 @@
 var auth = auth || {}
 auth = (()=>{
     const WHEN_ERR = '호출하는 JS 파일을 찾지 못했습니다.'
-    let _, js, auth_vue_js, brd_js, router_js
+    let _, js, css, img, auth_vue_js, brd_js, router_js, cookie_js
     let init = ()=>{
         _ = $.ctx()
         js = $.js()
+        css = $.css()
+        img = $.img()
         auth_vue_js = js+'/vue/auth_vue.js'
         brd_js = js+'/brd/brd.js'
         router_js = js+'/cmm/router.js'
+        cookie_js = js+'/cmm/cookie.js'
+        
        
     }
     function onCreate(){
         init()
         $.when(
         		 $.getScript(auth_vue_js),
-        		 $.getScript(router_js)
+        		 $.getScript(router_js),
+        		 $.getScript(brd_js),
+        		 $.getScript(cookie_js)
         		 
 		 )
         .done(()=>{
@@ -92,9 +98,8 @@ auth = (()=>{
                     }
             })
     }
-    let login =x=>{
+    let login =()=>{
             $('<button>',{
-              type : "submit",
               text : "로그인",
               
               click : e => {
@@ -106,25 +111,10 @@ auth = (()=>{
                     data : JSON.stringify({uid : $('#uid').val(), upw : $('#upw').val()}),
                     contentType : 'application/json',
                     success : d =>{
-                       $.when(
-                    		   $.getScript(brd_js),
-                    		   $.getScript(router_js,()=>{
-                    			   $.extend(new User(d))
-                    		   })
-                    		   
-                       )
-                       .done(()=>{
-                    	   alert('>>'+$.uname())
-                    	   brd.onCreate()
-                       })
-                       
-                       .fail(()=>{
-                    	   alert('when done 실패')
-                       })
-                     
-                        	  
-                       
-                       
+                    	/*$.extend(new User(d))*/
+                    	setCookie("USER_ID",d.uid)
+                    	alert('저장된 쿠키:'+getCookie("USER_ID"))
+                    	brd.onCreate()
                 },
                 error : e =>{
                   alert('login ajax실패')
@@ -156,14 +146,6 @@ auth = (()=>{
               }
         })
     }*/
-    /*let mypage =()=>{
-    	$.getScript(brd_vue_js)
-        $('head').html(brd_vue.brd_head())
-        $('body').html(brd_vue.brd_body())
-    }*/
+  
     return {onCreate, join, login}
 })();
-
-
-
-
