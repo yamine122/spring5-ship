@@ -1,7 +1,7 @@
 /* https://getbootstrap.com/docs/4.0/examples/offcanvas/ */
 var navi_vue = navi_vue || {}
 navi_vue={
-		nav : ()=>{
+		navi : ()=>{
 			return '<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">'+
 			'      <a class="navbar-brand" href="#"><i class="fab fa-angellist fa-2x"></i></a>'+
 			'      <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">'+
@@ -9,7 +9,7 @@ navi_vue={
 			'      </button>'+
 			'      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">'+
 			'        <ul class="navbar-nav mr-auto">'+
-			'          <li id="menu_write"  class="nav-item active"></li>'+
+			'          <li id="menu_write"  class="nav-item"></li>'+
 			'          <li id="menu_logout" class="nav-item">'+
 			'          </li>'+
 			'          <li class="nav-item">'+

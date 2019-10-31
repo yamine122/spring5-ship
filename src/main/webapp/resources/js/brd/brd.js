@@ -36,7 +36,7 @@ brd = (()=>{
        $('head').html(brd_vue.brd_head({css: $.css(), img: $.img()}))
        $('body').addClass('text-center')
        .html(brd_vue.brd_body({ctx: '/web',css: $.css(), img: $.img()}))
-       $(navi_vue.nav()).appendTo('#navi')
+       $(navi_vue.navi()).appendTo('#navi')
        recent_updates()
    }
    let recent_updates =()=>{
