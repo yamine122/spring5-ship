@@ -86,39 +86,42 @@ adm = (()=>{
 		
 	}
 	let web_crawl=()=>{
-		
-		
-		$(		
-				'  <form action="https://www.google.com/">'+
-				'  <select name="google" size="1">'+
+		$('#right').empty()
+		$('</br></br></br></br></br><h2>Web Crawling</h2></br></br></br></br></br></br></br>'+
+				'<form id="crawl_form" class="form-inline my-2 my-lg-0">'+
+				'  <select name="site" size="1">'+
 				'  </select>'+
-				'<input type="text"/>'+
-				'  <input type="submit"/>'+
-				'  </form>')
-				.appendTo('#right')
-		let arr = ['News','Sports','Game','Shopping']
+		          '<input class="form-control mr-sm-2" name="text" placeholder="insert URL for crawling" aria-label="Search">'+
+		         
+				'</form>')
+		.appendTo('#right')
+		$('#crawl_form input[class="form-control mr-sm-2"]')
+		.css({width:'80%'})
+		let arr = [{sub:'naver.com'},{sub:'daum.net'},{sub:'google.co.kr'},{sub:'youtube.com'}]
 		$.each(arr,(i,j)=>{
-			$('<option value='+j+'>'+j+'</option>')
-			.appendTo('select[name="google"]')
-			.click(function(){
-				let that = $(this).attr('name')
-				switch($(this).attr('name')){
-				case 'News': 
-					break;
-				case 'Sports': 
-					break;
-				case 'Game': 
-					break;
-				case 'Shopping': 
-					break;
-					
-					
-				}
+			$('<option value='+j.sub+'>'+j.sub+'</option>').appendTo('#crawl_form select')
 			})
-		})
-		
-		
-		
+			$( '<button class="btn btn-secondary my-2 my-sm-0" type="submit">go crawl</button>')
+			.appendTo('#crawl_form')
+			.click(e=>{
+				e.preventDefault()
+				if(
+				!$.fn.nullChecker([$('#crawl_form select[name="site"]').val(),
+						$('form#crawl_form input[name="text"]').val()])){
+						
+				alert('/txs/crawling/'+$('form#crawl_form select[name="site"]').val())		
+				let url = _+'/txs/crawling'+$('form#crawl_form select[name="site"]').val()+
+				'/'+$('form#crawl_form input[name="text"]').val()
+				e.preventDefault()
+				$.getJSON(_
+						+'/txs/crawling/'+$('form#crawl_form select[name="site"]').val()+
+						'/'+$('form#crawl_form input[name="text"]').val(),
+						d=>{
+					alert(d.msg)
+				})
+				}//if 의 끝나는 지점
+				
+			})
 	}
-	return{onCreate}
+	return {onCreate}
 })()
