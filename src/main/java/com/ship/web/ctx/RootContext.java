@@ -13,7 +13,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Import({
 	MyBatisContext.class, ServletContext.class
 })
-
+//1
 @Configuration
 @MapperScan(basePackages = {"com.ship.web"})
 @ComponentScan(basePackages = {"com.ship.web"})
