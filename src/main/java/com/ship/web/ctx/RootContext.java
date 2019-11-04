@@ -2,17 +2,17 @@ package com.ship.web.ctx;
 
 import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//develop 2
-/*import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;*/
+@Import({
+	MyBatisContext.class, ServletContext.class
+})
 
 @Configuration
 @MapperScan(basePackages = {"com.ship.web"})
@@ -20,14 +20,7 @@ import com.zaxxer.hikari.HikariDataSource;*/
 public class RootContext {
 	@Bean
 	public DataSource dataSource() {
-		/*HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
-		hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3306/ship?serverTimezone=UTC");
-		hikariConfig.setUsername("ship");
-		hikariConfig.setPassword("ship");
 		
-		HikariDataSource dataSource = new HikariDataSource(hikariConfig);
-		*/
 		
 		 DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
@@ -38,6 +31,10 @@ public class RootContext {
 		    
 		return dataSource;
 	}
-	
+	@Bean
+	public DataSourceTransactionManager txManager() {
+		
+		return new DataSourceTransactionManager(dataSource());
+	}
 	
 }
