@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ship.web.adm.Admin;
+import com.ship.web.pxy.Proxy;
 import com.ship.web.utl.Printer;
 
 @RestController

@@ -13,9 +13,13 @@
    <select id="count" resultType="string">
        SELECT COUNT(*) FROM ARTICLE
    </select>
-   <select id="selectAll" resultType="Article">
-       SELECT A.BOARD_TYPE  boardType, A.USER_ID uid, A.*
-		FROM ARTICLE A
+   <select id="selectAll" resultType="Article" parameterType="Proxy">
+		SELECT A.BOARD_TYPE AS boardType, A.USER_ID AS uid, A.* FROM (
+			SELECT * 
+			FROM ARTICLE
+			ORDER BY ARTSEQ DESC) A
+		LIMIT ${startRow}, ${pageSize}
+
    </select>
    <select id="deleteArticle" resultType="Article">
        DELETE  FROM ARTICLE WHERE ARTSEQ LIKE #{artseq}
@@ -25,5 +29,6 @@
 			SET CONTENT = #{content}
 			WHERE ARTSEQ = #{artseq};
   	</update>
+  	
    
 </mapper>

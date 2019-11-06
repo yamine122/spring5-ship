@@ -1,5 +1,6 @@
 package com.ship.web.brd;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -16,19 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ship.web.cmm.IConsumer;
-import com.ship.web.cmm.IFunction;
 import com.ship.web.cmm.ISupplier;
+import com.ship.web.pxy.Proxy;
+import com.ship.web.pxy.ProxyMap;
 import com.ship.web.utl.Printer;
 
 @RestController
 @RequestMapping("/articles")
 public class ArticleCtrl {
 	private static final Logger logger = LoggerFactory.getLogger(ArticleCtrl.class);
-	@Autowired Map<String,Object> map;
+	
 	@Autowired Article art;
 	@Autowired Printer printer;
 	@Autowired ArticleMapper articleMapper;
 	@Autowired List<Article> list;
+	@Autowired Proxy pxy;
+	@Autowired ProxyMap map;
 	
 	
 	@PostMapping("/")
@@ -38,29 +42,34 @@ public class ArticleCtrl {
 		printer.accept(param.toString());
 		IConsumer<Article> c = t-> articleMapper.insertArticle(param);
 		c.accept(param);
-		map.clear();
-		map.put("msg", "SUCCESS");
 		ISupplier<String> s = () -> articleMapper.count();
-		map.put("count", s.get());
-		printer.accept("글숫자"+s.get());
-		printer.accept("글쓰기 나감"+ map.get("msg"));
-		return map;
+		map.accept(Arrays.asList("msg", "count"),Arrays.asList("SUCCESS", s.get()));
+		
+		return map.get();
 	}
-	@GetMapping("/")
-	public List<Article> list(){
+	@GetMapping("/page/{pageNo}/size/{pageSize}")
+	public Map<?,?> list(@PathVariable String pageNo,
+			@PathVariable String pageSize){
+		System.out.println("넘어온 page넘버"+pageNo);
+		pxy.setPageNum(pxy.parseInt(pageNo));
+		pxy.setPageSize(pxy.parseInt(pageSize));
+		pxy.paging();
 		list.clear();
-		ISupplier<List<Article>> s = () -> articleMapper.selectAll();
-		printer.accept("전체글목록\n"+s.get());
-		return s.get();
+		ISupplier<List<Article>> s = () -> articleMapper.selectAll(pxy);
+		int ran = pxy.random(1, 2);
+		System.out.println(ran);
+		map.accept(Arrays.asList("articles", "pages", "pxy"),
+				Arrays.asList(s.get(),Arrays.asList(1,2,3,4,5),pxy));
+		
+		return map.get();
 	}
 	
 	@GetMapping("/count")
 	public Map<?,?> count(){
-		printer.accept("카운트들어옴");
+		
 		ISupplier<String> s = () -> articleMapper.count();
-		map.clear();
-		map.put("count", s.get());
-		return map;
+		map.accept(Arrays.asList("count"),Arrays.asList(s.get()));
+		return map.get();
 	}
 	
 	@GetMapping("/{artseq}")
@@ -72,19 +81,18 @@ public class ArticleCtrl {
 		logger.info("수정"+param);
 		IConsumer<Article> c = t -> articleMapper.updateArticle(param);
 		c.accept(param);
-		map.clear();
-		map.put("msg", "SUCCESS");
-		logger.info("수정2");
-		return map;
+		
+		map.accept(Arrays.asList("msg"),Arrays.asList("SUCCESS"));
+		return map.get();
 	} 
 	@DeleteMapping("/{artseq}")
 	public Map<?,?> deleteArticle(@PathVariable String artseq, @RequestBody Article param){
 		printer.accept("딜리트 들어옴");
 		IConsumer<Article> c = T -> articleMapper.deleteArticle(param);
 		c.accept(param);
-		map.clear();
-		map.put("msg", "SUCCESS");
-		return map;
+		
+		map.accept(Arrays.asList("msg"),Arrays.asList("SUCCESS"));
+		return map.get();
 	
 	}
 	
