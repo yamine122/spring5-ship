@@ -23,26 +23,38 @@ import lombok.Data;
 @Data
 @Lazy
 public class Proxy {
-	private int pageNum, pageSize, startRow, endRow;
+	private int totalCount, startRow, endRow,
+				pageCount, pageNum, pageSize, startPage, endPage, 
+				blockCount, blockNum, nextBlock, prevBlock;
+	
 	private boolean existPrev, existNext;
 	private String search;
 	private final int BLOCK_SIZE = 5;
+	private List<Integer> pages;
 	@Autowired Printer printer;
 	@Autowired ArticleMapper articleMapper;
 	
 	@SuppressWarnings("unused")
 	public void paging() {
 		ISupplier<String> s = ()-> articleMapper.count();
-		int totalCount = Integer.parseInt(s.get());
-		int pageCount = (totalCount % pageSize != 0) ? (totalCount / pageSize)+1 : totalCount / pageSize;
+		totalCount = Integer.parseInt(s.get());
+		pageCount = (totalCount % pageSize != 0) ? (totalCount / pageSize)+1 : totalCount / pageSize;
 		startRow = (pageNum-1)*pageSize;
 		endRow = (pageNum==pageCount) ? totalCount -1 : startRow + pageSize -1;
-		int blockCount = (pageCount % BLOCK_SIZE != 0) ? (pageCount / BLOCK_SIZE)+1 : pageCount / BLOCK_SIZE;
-		int blockNum = (pageNum - 1) / BLOCK_SIZE;
-		int startPage = blockNum * BLOCK_SIZE + 1;
-		int endPage = ((blockNum + 1) != blockCount) ? startPage + (BLOCK_SIZE -1) : pageCount;
+		blockCount = (pageCount % BLOCK_SIZE != 0) ? (pageCount / BLOCK_SIZE)+1 : pageCount / BLOCK_SIZE;
+		blockNum = (pageNum - 1) / BLOCK_SIZE;
+		startPage = blockNum * BLOCK_SIZE + 1;
+		endPage = ((blockNum + 1) != blockCount) ? startPage + (BLOCK_SIZE -1) : pageCount;
 		existPrev = blockNum != 0;
 		existNext = (blockNum + 1) != blockCount;
+		pages = new ArrayList<>();
+			for(int i = startPage ; i <= endPage ; i++) {
+			pages.add(i);
+			}
+		nextBlock = startPage + BLOCK_SIZE;
+		prevBlock = startPage - BLOCK_SIZE;
+		
+		
 
 		
 	}

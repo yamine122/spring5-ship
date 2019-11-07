@@ -58,8 +58,8 @@ public class ArticleCtrl {
 		ISupplier<List<Article>> s = () -> articleMapper.selectAll(pxy);
 		int ran = pxy.random(1, 2);
 		System.out.println(ran);
-		map.accept(Arrays.asList("articles", "pages", "pxy"),
-				Arrays.asList(s.get(),Arrays.asList(1,2,3,4,5),pxy));
+		map.accept(Arrays.asList("articles","pxy"),
+				Arrays.asList(s.get(),pxy));
 		
 		return map.get();
 	}

@@ -90,18 +90,40 @@ brd = (()=>{
 			if(d.pxy.existPrev){
 				$('<li class="page-item"><a class="page-link" href="#">이전</a></li>')
 				.appendTo('#page')
+				.click(()=>{
+    				recent_updates({page : d.pxy.prevBlock, size :  $('#paging_form option:selected').val()})
+   			  })
 			}
-    		  $.each(d.pages,(i,j)=>{
+      		let i = 0
+      		for(i = d.pxy.startPage ; i <= d.pxy.endPage ; i++) {
+      		   if(d.pxy.pageNum == i){
+      			 $('<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>')
+      			 .appendTo('#page')
+      			 .addClass('active')
+      		   }else{
+      			 $('<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>')
+      			 .appendTo('#page')
+      			 .click(function(){
+      				alert('페이지번호>>>'+$(this).children('.page-link').text())
+   				recent_updates({page : $(this).children('.page-link').text(), size :  $('#paging_form option:selected').val()})
+   			  })
+      		   }
+    			}
+    		 /* $.each(d.pxy.pages,(i,j)=>{
     			 
     			  $('<li class="page-item"><a class="page-link" href="#">'+j+'</a></li>')
     			  .appendTo('#page')
     			  .click(()=>{
     				recent_updates({page : j, size :  $('#paging_form option:selected').val()})
     			  })
-    		  })
+    		  })*/
     		  if(d.pxy.existNext){
     			  $('<li class="page-item"><a class="page-link" href="#">다음</a></li>')
     				.appendTo('#page')
+    				.click(e=>{
+    					e.preventDefault()
+    				recent_updates({page : d.pxy.nextBlock, size :  $('#paging_form option:selected').val()})
+   			  })
     		  }
     		  $('#page').css({'justify-content' : 'center'})
     		  $('#recent_updates div.container').css({'text-align':'right'})
